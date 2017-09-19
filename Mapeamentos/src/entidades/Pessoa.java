@@ -6,10 +6,12 @@
 package entidades;
 
 
+import app.PessoaPK;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.AttributeOverride;
+import javax.persistence.Basic;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -17,8 +19,11 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -28,14 +33,15 @@ import javax.persistence.Transient;
  * @author rudan
  */
 @Entity
+@IdClass(PessoaPK.class)
 public class Pessoa implements Serializable {
+//    @Id
+//    @GeneratedValue
+//    private int id;
     @Id
-    @GeneratedValue
-    private int id;
-    
     private String nome;
     
-    @Transient
+    @Id
     private int idade;
     
     @Enumerated(EnumType.STRING)
@@ -51,17 +57,22 @@ public class Pessoa implements Serializable {
     @Embedded
     @AttributeOverride(name="valor", column = @Column(name = "CPF_Pessoa"))
     private CPF cpf;
+    
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private String biografia;
 
     public Pessoa() {
     }
 
-    public Pessoa(String nome, int idade, Sexo sexo, LocalDate dataNascimento, List<String> telefones, CPF cpf) {
+    public Pessoa(String nome, int idade, Sexo sexo, LocalDate dataNascimento, List<String> telefones, CPF cpf, String biografia) {
         this.nome = nome;
         this.idade = idade;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.telefones = telefones;
         this.cpf = cpf;
+        this.biografia = biografia;
     }
 
     public String getNome() {
@@ -118,6 +129,14 @@ public class Pessoa implements Serializable {
 
     public void setCpf(CPF cpf) {
         this.cpf = cpf;
+    }
+
+    public String getBiografia() {
+        return biografia;
+    }
+
+    public void setBiografia(String biografia) {
+        this.biografia = biografia;
     }
     
     

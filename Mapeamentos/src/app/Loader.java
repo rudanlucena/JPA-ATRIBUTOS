@@ -29,7 +29,9 @@ public class Loader {
         
         CPF cpf = new CPF("63210000");
         
-        Pessoa p = new Pessoa("Rudan", 19, Sexo.MASCULINO, LocalDate.now(), telefones, cpf);
+        String biografia = "texto longo...";
+        
+        Pessoa p = new Pessoa("Rudan", 19, Sexo.MASCULINO, LocalDate.now(), telefones, cpf, biografia);
         
         entityManager.getTransaction().begin();
         entityManager.persist(p);
